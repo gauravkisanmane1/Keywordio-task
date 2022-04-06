@@ -1,0 +1,89 @@
+{% extends 'app/base.html' %}
+{% block main-content %} 
+<style>
+  .grid1{
+
+        display:grid;
+        grid-template-columns: repeat(3,8fr);
+        gap:1px;
+      
+
+  }
+</style>
+<!-- Slider of the website -->
+  <div id="myCarousel" class="carousel slide carousel-fade mx-5 my-5" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    </div>
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <a href=""><img src="https://www.dailydot.com/wp-content/uploads/5ca/da/5255c0a30f89bf261000ede14949c840.jpg" class="d-block w-100"  height="400px" alt="Signup banner"></a>
+        <div class="container">
+          <div class="carousel-caption text-start">
+            <h1>welcome to the Library </h1>
+      
+          </div>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <a href="{% url 'all_books' %}"><img src="https://wallpapercave.com/wp/ijo8KeK.jpg" class="d-block w-100"  height="400px"alt="library_img"></a>
+        <div class="container">
+         
+        </div>
+      </div>
+      <div class="carousel-item">
+        <a href="{% url 'create_book_record' %}"><img src="https://media.istockphoto.com/photos/pupils-reading-books-in-library-picture-id486150624?k=6&m=486150624&s=170667a&w=0&h=X2AaIpB6G3x22KpIkMTjX_Bwdy0wfuBwBFMdDlj2VbA=" class="d-block w-100" height="400px" alt="record_img"></a>
+        <div class="container">
+          
+        </div>
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+
+
+<!-- Below div is to show 3 latest books added in the database -->
+  <div class="container marketing">
+<div class="grid1">
+{% for d in data %}
+        <div class="card m-3" style="max-width: 540px;">
+          <div class="row g-0">
+            <div class="col-md-4">
+              <img src="{{d.books_img.url}}" class="img-fluid rounded-start" alt="...">
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title">{{d.user | title}}</h5>
+                <h5 class="card-title">{{d.books_name}}</h5>
+                <p class="card-text">{{d.books_description}}</p>
+                {% if request.user == d.user %}
+                  <a class="btn btn-primary" href="{% url 'update_book_record' d.id %}"
+                  >Update</a>
+                  <a class="btn btn-danger" href="{% url 'delete_record' d.id %}"
+                  >Delete</a>
+                {% else %}
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+{% endfor %}
+</div>
+
+  <!-- Static content of the site -->
+<button><a class="nav-link" href="{% url 'all_books' %}"
+    >View More</a
+  ></button>
+   
+
+</div>
+{% endblock main-content %}
